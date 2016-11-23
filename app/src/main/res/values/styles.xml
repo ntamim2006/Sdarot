@@ -1,0 +1,45 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccentLight</item>
+        <item name="android:colorForeground">@android:color/holo_orange_light</item>
+        <item name="android:textColorPrimary">@color/primary_text_material_dark</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:colorBackground">@android:color/white</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
+
+    </style>
+
+    <style name="costum_search" parent="android:Theme">
+        <item name="android:background">#FFFFFF</item>
+    </style>
+
+    <style name="Color1SwitchStyle">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+    <!-- Style to replace actionbar overflow icon. set item 'android:actionOverflowButtonStyle' in AppTheme -->
+    <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/icon_menu</item>
+    </style>
+
+    <style name="title" parent="Base.TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@color/orange</item>
+    </style>
+
+    <style name="content" parent="Base.TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="WheelDemoTheme.Light" parent="android:Theme.Light">
+    </style>
+    <style name="WheelDemoTheme" parent="android:Theme">
+    </style>
+
+
+
+</resources>

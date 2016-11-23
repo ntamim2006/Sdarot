@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="280dp"
+                android:layout_height="300dp"
+                android:background="@drawable/layout_bg_for1click"
+    >
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentStart="false"
+        android:id="@+id/linearLayout2">
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/numberPicker"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text=":"
+            android:id="@+id/textView6"
+            android:layout_gravity="center_vertical"
+            android:textSize="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorAccent"/>
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/numberPicker2"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text=":"
+            android:id="@+id/textView7"
+            android:layout_gravity="center_vertical"
+            android:textSize="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorAccent"/>
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/numberPicker3"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            />
+
+
+    </LinearLayout>
+
+    <ru.katso.livebutton.LiveButton
+        xmlns:livebutton="http://schemas.android.com/apk/res-auto"
+        android:layout_height="50dp"
+        android:layout_width="150dp"
+        android:gravity="center"
+        android:text="@string/ok"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="26sp"
+        livebutton:corners="4dp"
+        livebutton:normalHeight="10dp"
+        livebutton:pressedHeight="2dp"
+        livebutton:backgroundColor="@color/colorPrimary"
+        livebutton:shadowColor="@color/colorPrimaryDark"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="10dp"
+
+        android:id="@+id/livebutton"/>
+
+
+</RelativeLayout>

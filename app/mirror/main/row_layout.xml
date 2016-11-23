@@ -1,0 +1,22 @@
+<!-- [ Mirror metadata ] generatedAt: 1458650891635 -->
+<!-- Generated screen file. Fill the id tags below with content with
+which to populate your previewed layout. For a complete specification
+of sample data, please see http://jimulabs.com/sample-data-specifications/ 
+
+Valid attributes on <screen> tag: theme="@style/someTheme" inEditMode="false" overlay="@drawable/mockup" -->
+<screen>
+    <_content layout="@layout/row_layout">
+        <!-- ImageView Examples:
+        <series_image src="@drawable/image_resource" />
+        <series_image src="relative_path/image.jpg" /> -->
+        <series_image />
+        <!-- TextView Examples:
+        <series_titles text="@string/string_resource" />
+        <series_titles text="Text literal" textSize="14sp" /> -->
+        <series_titles />
+        <textseason />
+        <textEpisode />
+        <textView3 />
+        <textView5 />
+    </_content>
+</screen>

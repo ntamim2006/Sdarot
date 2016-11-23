@@ -1,0 +1,243 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="340dp"
+                android:layout_height="420dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+
+                android:background="@drawable/layout_dialod_bg"
+    >
+
+
+    <!--<com.shawnlin.numberpicker.NumberPicker-->
+        <!--android:id="@+id/numberPicker1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:np_dividerColor="@color/colorPrimary"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginTop="150dp"-->
+        <!--app:np_textColor="@color/black"-->
+        <!--app:np_textSize="12dp"-->
+        <!--android:layout_toRightOf="@+id/NumberPicker2"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:visibility="invisible"/>-->
+
+    <biz.kasual.materialnumberpicker.MaterialNumberPicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:npMinValue="1"
+        app:npMaxValue="50"
+        app:npDefaultValue="0"
+        app:npBackgroundColor="@color/transparent"
+        app:npSeparatorColor="#a1a1a1"
+        app:npTextColor="#a1a1a1"
+        app:npTextSize="12sp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="150dp"
+        android:layout_toRightOf="@+id/NumberPicker2"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/numberPicker1"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#000000"
+        android:layout_below="@+id/lin_search"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"/>
+
+
+
+    <ru.katso.livebutton.LiveButton
+        xmlns:livebutton="http://schemas.android.com/apk/res-auto"
+        android:layout_height="60dp"
+        android:layout_width="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="26sp"
+        livebutton:corners="4dp"
+        livebutton:normalHeight="6dp"
+        livebutton:pressedHeight="2dp"
+        livebutton:backgroundColor="#d9635a"
+        livebutton:shadowColor="#965151"
+        android:id="@+id/button2"
+        />
+
+    <ru.katso.livebutton.LiveButton
+        xmlns:livebutton="http://schemas.android.com/apk/res-auto"
+        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="@string/ok"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="26sp"
+        livebutton:corners="4dp"
+        livebutton:normalHeight="6dp"
+        livebutton:pressedHeight="2dp"
+        livebutton:backgroundColor="@color/colorAccent2"
+        livebutton:shadowColor="@color/colorPrimaryDark"
+        android:id="@+id/buttonOk"
+        android:layout_toRightOf="@+id/button2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="8dp"
+        android:enabled="false"/>
+
+    <AutoCompleteTextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:drawableEnd="@drawable/action_search"
+        android:drawablePadding="25dp"
+        android:drawableRight="@drawable/action_search"
+        android:id="@+id/textfortakefocus"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:inputType="text"
+        android:imeOptions="actionNext"
+        android:dropDownHeight="280dp"
+        android:text="enter series name"
+        android:textSize="24dp"
+        android:paddingLeft="30dp"
+        android:textColor="@color/colorAccent"/>
+
+
+    <biz.kasual.materialnumberpicker.MaterialNumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="150dp"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentLeft="false"
+        app:npMinValue="1"
+        app:npMaxValue="50"
+        app:npDefaultValue="0"
+        app:npBackgroundColor="@color/transparent"
+        app:npSeparatorColor="#a1a1a1"
+        app:npTextColor="#a1a1a1"
+        app:npTextSize="12sp"
+        android:id="@+id/NumberPicker2"/>
+
+    <TextView
+        android:id="@+id/textView555"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="130dp"
+        android:text="@string/insert_episode_number"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#a1a1a1"
+        android:layout_toRightOf="@+id/TextView01"
+        android:layout_marginLeft="32dp"
+        android:layout_alignParentLeft="false"/>
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="130dp"
+        android:text="@string/insert_season_number"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#a1a1a1"
+        android:layout_marginLeft="15dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="select the last episode you saw"
+        android:id="@+id/textView4"
+        android:layout_alignBottom="@+id/TextView01"
+        android:layout_marginBottom="40dp"
+        android:textColor="#a1a1a1"
+        android:layout_centerHorizontal="true"
+        android:textSize="26sp"
+        android:textStyle="normal|bold"
+        android:gravity="center_horizontal"
+        />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="My series list"
+        android:textSize="30sp"
+        android:id="@+id/textstam"
+        android:textColor="#0294b5"
+
+        android:layout_centerHorizontal="true"
+        android:linksClickable="false"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:id="@+id/imageView6"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:baselineAlignBottom="false"
+        android:background="#007590"/>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lin_search"
+        android:layout_marginTop="5dp">
+
+        <AutoCompleteTextView
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:drawablePadding="25dp"
+            android:id="@+id/autoCompleteTextView"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+
+            android:inputType="text"
+            android:imeOptions="actionSearch"
+            android:dropDownHeight="350dp"
+
+            android:textSize="20dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/colorAccentLight"
+            android:hint="enter series name"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:dropDownWidth="270dp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/imageView5"
+            android:background="@drawable/search_icon2"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="25dp"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="list_of_drawer">
+        <item>add reminder</item>
+        <item>tutorial</item>
+        <item>rate app</item>
+    </string-array>
+
+    <string-array name="list_of_repeat">
+        <item>Every day</item>
+        <item>Every 2 days</item>
+        <item>Every 3 days</item>
+        <item>Every week</item>
+    </string-array>
+
+    <string-array name="list_of_day">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+
+    <string-array name="image_arraylist">
+        <item>http://ia.media-imdb.com/images/M/MV5BMTc5NTU3Njg0N15BMl5BanBnXkFtZTgwMzY4MjM0ODE@._V1_SX300.jpg</item>
+        <item>http://ia.media-imdb.com/images/M/MV5BMjM5OTQ1MTY5Nl5BMl5BanBnXkFtZTgwMjM3NzMxODE@._V1_SX300.jpg</item>
+        <item>http://ia.media-imdb.com/images/M/MV5BMTk1MjYzOTU2Nl5BMl5BanBnXkFtZTgwMzAxMTg5MTE@._V1_SX300.jpg</item>
+        <item>http://ia.media-imdb.com/images/M/MV5BMjM3ODMyMjc3MV5BMl5BanBnXkFtZTgwNDgzNDc5NzE@._V1_SX300.jpg</item>
+        <item>http://ia.media-imdb.com/images/M/MV5BOTEzNzI3MDc0N15BMl5BanBnXkFtZTgwMzk1MzA5NzE@._V1_SX300.jpg</item>
+        <item>http://ia.media-imdb.com/images/M/MV5BNjAwNzkxNzAwNF5BMl5BanBnXkFtZTgwODg2NTc2NjE@._V1_SX300.jpg</item>
+        <item>http://ia.media-imdb.com/images/M/MV5BMTQ1ODk3NDczNF5BMl5BanBnXkFtZTgwODE5MDQ4NjE@._V1_SX300.jpg</item>
+        <item>http://ia.media-imdb.com/images/M/MV5BMTc4Mzg0MzMwMF5BMl5BanBnXkFtZTgwNzQ3NTY3NzE@._V1_SX300.jpg</item>
+        <item>http://ia.media-imdb.com/images/M/MV5BMTU5MTczNTkxNl5BMl5BanBnXkFtZTgwNTM5NDc1MTE@._V1_SX300.jpg</item>
+        <item>http://ia.media-imdb.com/images/M/MV5BMTg3OTc0NzkyOV5BMl5BanBnXkFtZTgwMDMwMTM3MjE@._V1_SX300.jpg</item>
+    </string-array>
+
+
+    <string-array name="plots_arraylist">
+    <item>"Sheriff Deputy Rick Grimes leads a group of survivors in a world overrun by the walking dead. Fighting the dead, and living"</item>
+    <item>"While a civil war brews between several noble families in Westeros, the children of the former rulers of the land attempt to rise up to power."</item>
+    <item>"On the run from a drug deal gone bad, Mike Ross, a brilliant college-dropout, finds himself a job working with Harvey Specter, one of New York City's best lawyers"</item>
+    <item>"A Congressman works with his equally conniving wife to exact revenge on the people who betrayed him."</item>
+    <item>"The world of the Vikings is brought to life through the journey of Ragnar Lothbrok, the first Viking to emerge from Norse legend and onto the pages of history - a man on the edge of myth."</item>
+    <item>"Barry Allen wakes up 9 months after he was struck by lightning and discovers that the bolt gave him the power of super speed. Barry becomes \"The Flash\" and fights crime in Central City."</item>
+    <item>"The story behind Commissioner James Gordon's rise to prominence in Gotham City in the years before Batman's arrival."</item>
+    <item>An anthology series centered around some of historys most famous criminals</item>
+    <item>"Set 97 years after a nuclear war has destroyed civilization, when a spaceship housing humanity's lone survivors sends 100 juvenile delinquents back to Earth in hopes of possibly re-populating the planet"</item>
+    <item>"Spoiled billionaire Oliver Queen is missing and presumed dead when his yacht is lost at sea. He returns five years later a changed man, determined to clean up the city as a vigilante armed with a bow."</item>
+    </string-array>
+
+
+    <string-array name="names_arraylist">
+        <item>The walking dead</item>
+        <item>Game of thrones</item>
+        <item>Suits</item>
+        <item>House of cards</item>
+        <item>Vikings</item>
+        <item>The flash</item>
+        <item>Gotham</item>
+        <item>American crime story</item>
+        <item>The 100</item>
+        <item>Arrow</item>
+
+    </string-array>
+
+
+
+
+</resources>

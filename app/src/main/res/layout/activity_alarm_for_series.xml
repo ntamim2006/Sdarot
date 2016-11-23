@@ -1,0 +1,97 @@
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity"
+                android:padding="5dp"
+                android:background="#e4e3e4"
+    >
+
+    <Switch
+        android:id="@+id/mySwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Alarms ON"
+        android:checked="true"
+        android:textSize="15sp"
+        android:switchPadding="180dp"
+        android:paddingLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/switchStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/mySwitch"
+        android:layout_marginTop="300dp"
+        android:paddingLeft="30dp"
+        android:text="Repeat"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Spinner
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_below="@+id/mySwitch"
+        android:layout_marginTop="290dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="168dp"
+
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change alarm time"
+        android:id="@+id/button3"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="false"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="50dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:visibility="visible"
+        android:layout_marginTop="12dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/view2"
+        android:layout_below="@+id/mySwitch"></View>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20:00"
+        android:textColor="#0294b5"
+        android:id="@+id/textView14"
+        android:textSize="50dp"
+        android:layout_below="@+id/button3"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save alarm"
+        android:id="@+id/button4"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="57dp"/>
+
+    <Spinner
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner2"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:spinnerMode="dropdown"
+
+        />
+
+</RelativeLayout>
