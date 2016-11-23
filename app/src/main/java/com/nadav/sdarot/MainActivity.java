@@ -342,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                 }
                     WindowManager.LayoutParams wmlp = d.getWindow().getAttributes();
                 wmlp.gravity = Gravity.TOP | Gravity.CENTER;
-                wmlp.x = 10;   //x position
+                wmlp.x = 11;   //x position
                 wmlp.y = 200;   //y position
                 d.setContentView(R.layout.dialog_layout);
 
