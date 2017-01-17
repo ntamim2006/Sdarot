@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
         drawerItem[3] = new ObjectDrawerItem(R.drawable.icon_alarm, getResources().getString(R.string.Alarms));
         drawerItem[4] = new ObjectDrawerItem(R.drawable.icon_feedback, getResources().getString(R.string.Send_feedback));
         drawerItem[5] = new ObjectDrawerItem(R.drawable.iconrate, getResources().getString(R.string.Rate_App));
-        drawerItem[6] = new ObjectDrawerItem(R.drawable.login_icon, "Account Settings2");
+        drawerItem[6] = new ObjectDrawerItem(R.drawable.login_icon, "Account Settings");
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.drawer_list_item, drawerItem);
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
