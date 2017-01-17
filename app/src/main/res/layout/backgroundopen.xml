@@ -7,23 +7,9 @@
                 android:layout_marginRight="10dp"
 
                 android:background="@drawable/layout_dialod_bg"
-    >
+>
 
 
-    <!--<com.shawnlin.numberpicker.NumberPicker-->
-        <!--android:id="@+id/numberPicker1"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:np_dividerColor="@color/colorPrimary"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_marginTop="150dp"-->
-        <!--app:np_textColor="@color/black"-->
-        <!--app:np_textSize="12dp"-->
-        <!--android:layout_toRightOf="@+id/NumberPicker2"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:visibility="invisible"/>-->
 
 
     <View
@@ -56,7 +42,7 @@
         livebutton:backgroundColor="#d9635a"
         livebutton:shadowColor="#965151"
         android:id="@+id/button2"
-        />
+    />
 
     <ru.katso.livebutton.LiveButton
         xmlns:livebutton="http://schemas.android.com/apk/res-auto"

@@ -12,9 +12,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,7 +108,8 @@ public View getView(final int position, View convertView, ViewGroup parent) {
 	holder.Numofepisode.setText(FR.getNum_of_episode());
 
 	/* if the date field is empty the progressbar is needed */
-	if(FR.Date.equals(""))
+
+	if(FR.Date!=null && FR.Date.equals(""))
 	{
 		holder.nextSeason.setText(FR.Date);
 		holder.pBar.setVisibility(ProgressBar.VISIBLE);

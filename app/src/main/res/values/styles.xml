@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccentLight</item>
-        <item name="android:colorForeground">@android:color/holo_orange_light</item>
+        <item name="android:colorForeground">@android:color/holo_green_dark</item>
         <item name="android:textColorPrimary">@color/primary_text_material_dark</item>
         <item name="colorControlNormal">@color/colorAccent</item>
         <item name="android:colorBackground">@android:color/white</item>
@@ -39,7 +39,21 @@
     </style>
     <style name="WheelDemoTheme" parent="android:Theme">
     </style>
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/nadav2</item>
+        <item name="colorPrimaryDark">@color/nadav3</item>
+        <item name="colorAccent">@color/nadav</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:windowBackground">@drawable/rec_text_edit2</item>
+        <!--<item name="android:windowDisablePreview">true</item>-->
 
+
+
+
+    </style>
 
 
 </resources>

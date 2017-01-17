@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -35,7 +36,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
@@ -46,6 +46,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
@@ -58,6 +59,13 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.joanfuentes.hintcase.HintCase;
 import com.joanfuentes.hintcase.RectangularShape;
 import com.joanfuentes.hintcaseassets.hintcontentholders.SimpleHintContentHolder;
@@ -67,6 +75,7 @@ import com.joanfuentes.hintcaseassets.shapeanimators.UnrevealCircleShapeAnimator
 import com.joanfuentes.hintcaseassets.shapeanimators.UnrevealRectangularShapeAnimator;
 import com.joanfuentes.hintcaseassets.shapes.CircularShape;
 import com.nadav.sdarot.DrawerFragments.ReminderFragment;
+import com.nadav.sdarot.DrawerFragments.SyncDriveFragment;
 import com.nadav.sdarot.DrawerFragments.Top10Fragment;
 import com.nadav.sdarot.DrawerFragments.TutorialFragment;
 import com.nadav.sdarot.DrawerFragments.feedbackFragment;
@@ -100,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
     static AutoCompleteTextView select_Series;
     static String selected_series, selectedUrlImage;
     static MaterialNumberPicker np, np2;
-    public static boolean goToFrame = false;
     static TextView t, t2, t3;
     MenuItem miActionProgressItem;
     InterstitialAd mInterstitialAd;
@@ -111,6 +119,16 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
     ActionBar actionBar;
     private ListView mDrawerList;
     static AdView mAdView;
+    DatabaseReference myRef;
+    private DatabaseReference mDatabase;
+    String list = "";
+    static int click= 0;
+    static private FirebaseAuth auth;
+    LinearLayout linprogress;
+    static View fr;
+    private boolean ifstart = false;
+
+
     private android.support.v4.app.ActionBarDrawerToggle mDrawerToggle;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -127,7 +145,9 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         setContentView(R.layout.activity_main);
-
+        ifstart = true;
+        auth = FirebaseAuth.getInstance();
+        linprogress = (LinearLayout) findViewById(R.id.linprogress);
         /*costumaize the action bar*/
         final Context context = this;
         actionBar = getSupportActionBar();
@@ -137,20 +157,21 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
         View v = inflator.inflate(R.layout.layout, null);
         //if you need to customize anything else about the text, do it here.
         //I'm using a custom TextView with a custom font in my layout xml so all I need to do is set title
-        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/pala.ttf");
-        Typeface Episodeyouwatchtypeface = Typeface.createFromAsset(getAssets(), "fonts/Proxima Nova Alt Bold.otf");
         ((TextView) v.findViewById(R.id.title)).setText(this.getTitle());
-        ((TextView) v.findViewById(R.id.title)).setTypeface(tf);
-        ((TextView) findViewById(R.id.textView19)).setTypeface(Episodeyouwatchtypeface);
+
         //assign the view to the actionbar
         actionBar.setCustomView(v);
         /*end costumaize the action bar*/
+
+
+        fr =  findViewById(R.id.fragments);
 
         /*costumaize the  ads*/
         //banner ad
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().
-                addTestDevice("6AB5C315C19CF743C38E7AD465B601A6")
+                addTestDevice("284C628A80680C07E21AE13728ADE937")
+                .addTestDevice("0E9830DF43C4EB440157B8C079727CF9")
                 .build();
         mAdView.loadAd(adRequest);
         //InterstitialAd
@@ -195,13 +216,13 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                             /*set up drawer*/
         // set up the drawer's list view with items and click listener
         ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[7];
-        drawerItem[0] = new ObjectDrawerItem(R.drawable.home_icon, getResources().getString(R.string.Home));
-        drawerItem[1] = new ObjectDrawerItem(R.drawable.tutorial_icon, getResources().getString(R.string.Tutorial));
-        drawerItem[2] = new ObjectDrawerItem(R.drawable.reminder_icon, getResources().getString(R.string.Day_alarm));
-        drawerItem[3] = new ObjectDrawerItem(R.drawable.top_series_icon, getResources().getString(R.string.Top_10_series));
-        drawerItem[4] = new ObjectDrawerItem(R.drawable.icon_alarm, getResources().getString(R.string.Alarms));
-        drawerItem[5] = new ObjectDrawerItem(R.drawable.icon_feedback, getResources().getString(R.string.Send_feedback));
-        drawerItem[6] = new ObjectDrawerItem(R.drawable.iconrate, getResources().getString(R.string.Rate_App));
+        drawerItem[0] = new ObjectDrawerItem(R.drawable.tutorial_icon, getResources().getString(R.string.Tutorial));
+        drawerItem[1] = new ObjectDrawerItem(R.drawable.reminder_icon, getResources().getString(R.string.Day_alarm));
+        drawerItem[2] = new ObjectDrawerItem(R.drawable.top_series_icon, getResources().getString(R.string.Top_10_series));
+        drawerItem[3] = new ObjectDrawerItem(R.drawable.icon_alarm, getResources().getString(R.string.Alarms));
+        drawerItem[4] = new ObjectDrawerItem(R.drawable.icon_feedback, getResources().getString(R.string.Send_feedback));
+        drawerItem[5] = new ObjectDrawerItem(R.drawable.iconrate, getResources().getString(R.string.Rate_App));
+        drawerItem[6] = new ObjectDrawerItem(R.drawable.login_icon, "Account Settings");
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.drawer_list_item, drawerItem);
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -215,10 +236,13 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                 R.string.app_name  /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
+                mDrawerLayout.setVisibility(View.INVISIBLE);
+
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
             public void onDrawerOpened(View drawerView) {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -226,13 +250,14 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
 
 
 
-        listview = (ListView) findViewById(R.id.listView);
+        listview = (ListView) fr.findViewById(R.id.listView);
         ap = new Adapter(getApplicationContext(), R.layout.row_layout);
         listview.setAdapter(ap);
-        plus = (FloatingActionButton) findViewById(R.id.fab);
+        plus = (FloatingActionButton) fr.findViewById(R.id.fab);
         selected_series = "";
 
                     /* ** getting the data from save ** */
+                            click = 1;
                             getDataFromMemory();
 
 
@@ -340,10 +365,10 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
                     d.requestWindowFeature(Window.FEATURE_SWIPE_TO_DISMISS);
                 }
-                    WindowManager.LayoutParams wmlp = d.getWindow().getAttributes();
-                wmlp.gravity = Gravity.TOP | Gravity.CENTER;
-                wmlp.x = 11;   //x position
-                wmlp.y = 200;   //y position
+//                    WindowManager.LayoutParams wmlp = d.getWindow().getAttributes();
+//                wmlp.gravity = Gravity.TOP | Gravity.CENTER;
+//                wmlp.x = 11;   //x position
+//                wmlp.y = 200;   //y position
                 d.setContentView(R.layout.dialog_layout);
 
                 d.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -508,9 +533,6 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
 
             }
         });
-
-
-
         /* adding tutorial at the first time*/
         if(ap.getCount()==0) {
             File file_tutorial_check = new File(getApplicationContext().getFilesDir(), "file_tutorial_check");
@@ -596,11 +618,22 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
         String x = "";
         for (int i = 0; i < ap.getCount(); i++) {
             EpisodeClass x1 = (EpisodeClass) listview.getItemAtPosition(i);
-            x = x + x1.getName_of_series() + "," + x1.getNum_of_season() + "," + x1.getNum_of_episode() + "," + x1.imageUrl + "," + x1.Date + ","+ x1.pausetime + ",";
+
+            x = x + x1.getName_of_series() + "|" + x1.getNum_of_season() + "|" + x1.getNum_of_episode() + "|" + x1.imageUrl + "|" + x1.Date + "|"+ x1.pausetime + "|"+x1.nameOfEpisode+"|"+x1.plot+"|";
         }
 
-        File f_list = new File(context.getFilesDir(), "list");
-        FileManager.writeToFile(f_list, x);
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser user = auth.getCurrentUser();
+
+        click = 0;
+        try {
+            mDatabase.child("users").child(user.getUid()).setValue(x);
+            File f_list = new File(context.getFilesDir(), "list");
+            FileManager.writeToFile(f_list, x);
+        }catch(Exception e){
+
+        }
     }
 
 
@@ -636,6 +669,7 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
 
     @Override
     public void onStop() {
+        save(getBaseContext(), listview, ap);
         super.onStop();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -692,6 +726,7 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.xml_menu, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -712,27 +747,23 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                 View v = inflator.inflate(R.layout.layout, null);
                 //if you need to customize anything else about the text, do it here.
                 //I'm using a custom TextView with a custom font in my layout xml so all I need to do is set title
-                Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/palab.ttf");
                 ((TextView) v.findViewById(R.id.title)).setText(this.getTitle());
-                ((TextView) v.findViewById(R.id.title)).setTypeface(tf);
                 //assign the view to the actionbar
                 actionBar.setCustomView(v);
-
+                plus.show();
+                for (int i = 0; i < ap.getCount(); i++) {
+                    EpisodeClass x1 = (EpisodeClass) listview.getItemAtPosition(i);
+                    new StartTask(x1, i).execute();
+                }
                 mDrawerLayout.setVisibility(View.INVISIBLE);
-                goToFrame = false;
+                mDrawerLayout.closeDrawer(GravityCompat.END);
                 showFloatingActionButton();
                 return true;
 
             case R.id.action_info:
 
-                if (mDrawerLayout.isDrawerVisible(GravityCompat.END)) {
-                    mDrawerLayout.closeDrawer(GravityCompat.END);
-                    mDrawerLayout.setVisibility(View.INVISIBLE);
-
-                } else {
-                    mDrawerLayout.setVisibility(View.VISIBLE);
-                    mDrawerLayout.openDrawer(GravityCompat.END);
-                }
+                mDrawerLayout.setVisibility(View.VISIBLE);
+                mDrawerLayout.openDrawer(GravityCompat.END);
 
                 return true;
 
@@ -747,21 +778,17 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
         menu.findItem(R.id.action_info).setVisible(!drawerOpen);
 
-        if (!drawerOpen) {
-            if (!goToFrame) {
-                mDrawerLayout.setVisibility(View.INVISIBLE);
-
-            }
-        }
 
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
         // Extract the action-view from the menu item
 
-        for (int i=0; i<ap.getCount(); i++){
-            EpisodeClass x1 = (EpisodeClass) listview.getItemAtPosition(i);
-            new StartTask(x1,i).execute();
-        }
-
+//        if(ifstart) {
+//            for (int i = 0; i < ap.getCount(); i++) {
+//                EpisodeClass x1 = (EpisodeClass) listview.getItemAtPosition(i);
+//                new StartTask(x1, i).execute();
+//            }
+//        }
+//        ifstart = false;
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -796,52 +823,23 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
             fragment = null;
             switch (position) {
                 case 0:
-
-                    goToFrame = true;
-                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(i);
-                    break;
-
-                case 1:
-
-                    goToFrame = true;
-                    getSupportActionBar().setTitle("Tutorial");
-                    changeActionBarPicture(1);
                     fragment = new TutorialFragment();
-                    plus.hide();
                     break;
-
-                case 2:
-
-                    goToFrame = true;
-                    getSupportActionBar().setTitle("Day alarm");
-                    changeActionBarPicture(2);
+                case 1:
                     fragment = new ReminderFragment();
-                    plus.hide();
-                    break;
-
-                case 4:
-                    i = new Intent(getApplicationContext(), AlarmActivity.class);
-                    startActivity(i);
-                    plus.hide();
                     break;
                 case 3:
-                    goToFrame = true;
-                    getSupportActionBar().setTitle("Top 10");
-                    actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_TITLE);
-                    changeActionBarPicture(3);
+                    Intent i = new Intent(getApplicationContext(), AlarmActivity.class);
+                    startActivity(i);
+                    break;
+                case 2:
                     mAdView.setVisibility(View.INVISIBLE);
                     fragment = new Top10Fragment();
-                    plus.hide();
+                    break;
+                case 4:
+                    fragment = new feedbackFragment();
                     break;
                 case 5:
-                    goToFrame = true;
-                    getSupportActionBar().setTitle("Feedback");
-                    changeActionBarPicture(4);
-                    fragment = new feedbackFragment();
-                    plus.hide();
-                    break;
-                case 6:
                     //open the app page on play store
 
                     try {
@@ -850,13 +848,20 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.nadav.sdarot")));
                     }
                     break;
+                case 6:
+//                    i = new Intent(getApplicationContext(), UserDetails.class);
+//                    startActivity(i);
+                    fragment = new UserDetails();
+                    break;
                 default:
                     break;
+
+
             }
             if (fragment != null) {
                 FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-
+                fragmentManager.beginTransaction().replace(R.id.fragments, fragment).commit();
+                plus.hide();
                 mDrawerList.setItemChecked(position, true);
                 mDrawerList.setSelection(position);
                 mDrawerLayout.closeDrawer(mDrawerList);
@@ -871,33 +876,7 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
     }
 
 
-    public void changeActionBarPicture(int num) {
 
-        LayoutInflater inflater = (LayoutInflater) getSupportActionBar().getThemedContext()
-                .getSystemService(LAYOUT_INFLATER_SERVICE);
-        View customActionBarView = inflater.inflate(R.layout.layout_fragment_tutorial, null);
-
-        switch (num) {
-            case 1:
-                customActionBarView = inflater.inflate(R.layout.layout_fragment_tutorial, null);
-                break;
-            case 2:
-                customActionBarView = inflater.inflate(R.layout.layout_fragment_reminder, null);
-                break;
-            case 3:
-                customActionBarView = inflater.inflate(R.layout.layout_fragment_top10, null);
-                break;
-            case 4:
-                customActionBarView = inflater.inflate(R.layout.layout_fragment_feedback, null);
-                break;
-        }
-        ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
-                ActionBar.LayoutParams.WRAP_CONTENT);
-        layoutParams.gravity = Gravity.CENTER | Gravity.CENTER_HORIZONTAL;
-        actionBar.setCustomView(customActionBarView, layoutParams);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_TITLE);
-
-    }
 
     private void showOneClickDialog(final EpisodeClass x1) {
         final Dialog d = new Dialog(this);
@@ -906,10 +885,7 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             d.requestWindowFeature(Window.FEATURE_SWIPE_TO_DISMISS);
         }
-        WindowManager.LayoutParams wmlp = d.getWindow().getAttributes();
-        wmlp.gravity = Gravity.TOP | Gravity.CENTER;
-        wmlp.x = 10;   //x position
-        wmlp.y = 100;   //y position
+
         d.setContentView(R.layout.layout_one_click2);
 
         ListView OneClickList = (ListView) d.findViewById(R.id.listView3);
@@ -1778,6 +1754,7 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                     listview.setSelection(position);
                 }
             x1.setPausetime("");
+            makeOwnTextLong(x1.nameOfEpisode);
             save(MainActivity.this, listview, ap);
             ap.notifyDataSetChanged();
         }
@@ -1965,6 +1942,8 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
         }
     }
 
+
+
     private class StartTask extends AsyncTask<String, Void, String> {
         String a;
         EpisodeClass obj;
@@ -2073,58 +2052,14 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
     private void requestNewInterstitial() {
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("6AB5C315C19CF743C38E7AD465B601A6")
+                .addTestDevice("284C628A80680C07E21AE13728ADE937")
+                .addTestDevice("0E9830DF43C4EB440157B8C079727CF9")
                 .build();
 
         mInterstitialAd.loadAd(adRequest);
     }
 
-//    private class SearchPlot extends AsyncTask<String, Void, String> {
-//        private String checkPlot;
-//        TextView plot;
-//        ProgressBar pBarPlot;
-//
-//
-//        public SearchPlot(ProgressBar pBarPlot , TextView plot, String name_of_series, String num_season,String num_episode) {
-//             checkPlot = ("http://www.omdbapi.com/?t=" + name_of_series.replaceAll("\\s", "+") + "&Season=" + num_season + "&episode=" + num_episode + "&r=json");
-//                this.plot = plot;
-//                this.pBarPlot = pBarPlot;
-//        }
-//
-//        protected void onPreExecute() {
-//            pBarPlot.setVisibility(View.VISIBLE);
-//
-//        }
-//
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            // param[0] - we know we will have only one param, our search input
-//
-//            String result = Network.GET(checkPlot);
-//
-//            try {
-//                JSONObject searchArr = new JSONObject(result);
-//                return searchArr.getString("Plot");
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//                return "";
-//            }
-//
-//        }
-//        protected void onPostExecute(String s) {
-//            pBarPlot.setVisibility(View.INVISIBLE);
-//            if (s.equals("N/A")||s.equals("")){
-//                plot.setText(R.string.There_is_no_data_for_this_episode);
-//
-//            }else{
-//                plot.setText(s);
-//            }
-//        }
-//
-//    }
-//
+
 
     public static String formatEpisode (int num_season, int num_episode){
         String seas;
@@ -2352,15 +2287,10 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
     }
 
 
-    private void getDataFromMemory() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                File f_list = new File(getApplicationContext().getFilesDir(), "list");
-                final String list = FileManager.readFromFile(f_list);
-                final String[] StringArray = new String[200];
+    private void getDataFromMemory(String list) {
+        final String[] StringArray = new String[200];
         if (!list.equals("")) {
-            String[] raw = list.split("[,]");
+            String[] raw = list.split("[|]");
             arraycopy(raw, 0, StringArray, 0, raw.length);
 
             for (int j = 0; j < raw.length; ) {
@@ -2379,48 +2309,63 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                     }else {
                         obj.setPausetime(StringArray[j + 5]);
                     }
+                    obj.plot = StringArray[j+7];
+                    obj.nameOfEpisode = StringArray[j+6];
                     ap.add(obj);
                 }
-                j = j + 6;
+                j = j + 8;
             }
             checkSetHelpGuide(listview.getCount());
+        }else{
+            Toast.makeText(getApplicationContext(),"empty",Toast.LENGTH_LONG).show();
+
         }
+        linprogress.setVisibility(View.INVISIBLE);
+
+    }
+    private void getDataFromMemory() {
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                File f_list = new File(getApplicationContext().getFilesDir(), "list");
+//                final String list = FileManager.readFromFile(f_list);
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                myRef = database.getReference("users");
+                FirebaseUser user = auth.getCurrentUser();
+                myRef.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        try{
+                            list = snapshot.getValue().toString();
+                            if(click==1){
+                                getDataFromMemory(list);
+                            }
+                        }catch (Exception e){
+                            FirebaseUser user = auth.getCurrentUser();
+                            myRef.child(user.getUid()).setValue("");
+                            linprogress.setVisibility(View.INVISIBLE);
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+
+                });
+
             }
-        }, 0);
+        }, 1000);
     }
 
-//    public void showNotify(Context context) {
-//        // call back from notification to the app:
-//        Intent resultIntent = new Intent(context, MainActivity.class);
-//        resultIntent.setAction(Intent.ACTION_MAIN);
-//        resultIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-//                resultIntent, 0);
-//
-//        int mNotificationId = (int) (2 + System.currentTimeMillis());                // Gets an instance of the NotificationManager service
-//        NotificationManager mNotifyMgr =
-//                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//
-//        // build the notification
-//        NotificationCompat.Builder mBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(context)
-//                .setSmallIcon(R.drawable.icon_notification)
-//                //			     .setColor(Color.WHITE)
-//                .setColor(Color.rgb(2, 148, 181))
-//                .setContentTitle("you saw some episode today?")
-//                .setContentText("check it now!")
-//                .setSound(sound)
-//
-//                .setContentIntent(pendingIntent)
-//                .addAction(R.drawable.icon_back_to_app, "go to app", pendingIntent);
-//
-//        //issue the notification
-//        mNotifyMgr.notify(mNotificationId, mBuilder.build());
-//
-//    }
 
 
-                    public void hideFloatingActionButton() {
+
+    public void hideFloatingActionButton() {
                         plus.hide();
                     };
                     public void showFloatingActionButton() {

@@ -331,7 +331,6 @@
     <color name="Blush_Pink">#E6A9EC</color>
     <color name="Mauve">#E0B0FF</color>
     <color name="Wisteria_Purple">#C6AEC7</color>
-    <color name="Blossom_Pink">#F9B7FF</color>
     <color name="Thistle">#D2B9D3</color>
     <color name="Periwinkle">#E9CFEC</color>
     <color name="Lavender_Pinocchio">#EBDDE2</color>
@@ -340,5 +339,19 @@
     <color name="SeaShell">#FFF5EE</color>
     <color name="Milk_White">#FEFCFF</color>
     <color name="White">#FFFFFF</color>
+
+    <color name="YellowGreen">#9ACD32</color>
+    <color name="my_blue">#53596f</color>
+    <color name="mybackgroundgray">#c046c0</color>
+    <color name="mygray">#e4e3e4</color>
+    <color name="myfloral">#fffcf6</color>
+    <color name="mydarkgray">#46596c</color>
+    <color name="mycolorpromarydark">#9f2377af</color>
+    <color name="dgs">#31ff0000</color>
+    <color name="nadav">#f2fe71</color>
+    <color name="nadav2">#00bcd4</color>
+    <color name="nadav3">#0097A7</color>
+    <color name="FloralWhite">#fffaf0</color>
+
 
 </resources>

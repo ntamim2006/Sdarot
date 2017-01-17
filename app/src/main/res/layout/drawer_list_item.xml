@@ -26,6 +26,6 @@
         android:text="Folder name here."
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textColor="#000000"
-        />
+        android:textSize="16dp"/>
 
 </RelativeLayout>

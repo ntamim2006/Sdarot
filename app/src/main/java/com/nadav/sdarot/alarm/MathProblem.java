@@ -125,7 +125,7 @@ public class MathProblem {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.lang.Object#toString()
+	 * @see java.lang.Objectmy#toString()
 	 */
 	@Override
 	public String toString() {

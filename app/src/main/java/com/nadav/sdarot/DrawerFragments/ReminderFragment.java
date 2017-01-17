@@ -10,6 +10,9 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +36,8 @@ import java.io.File;
 import java.sql.Time;
 import java.util.Calendar;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
 
 /**
  * Created by Nadav on 08/03/2016.
@@ -52,6 +57,7 @@ public class ReminderFragment extends Fragment implements Button.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_reminder, container, false);
+        changeActionBarPicture(R.string.day_alarm);
         mButton = (Button) rootView.findViewById(R.id.button3);
         spinner_select_repeat = (Spinner) rootView.findViewById(R.id.spinner);
         Switch switchOnOff = (Switch)rootView.findViewById(R.id.mySwitch);
@@ -258,6 +264,20 @@ cancel.setOnClickListener(new View.OnClickListener() {
         public void onFragmentInteraction(Uri uri);
     }
 
+    public void changeActionBarPicture(int title) {
 
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.setTitle(getString(title));
+        LayoutInflater inflater2 = (LayoutInflater) actionBar.getThemedContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        View customActionBarView = inflater2.inflate(R.layout.layout_fragment_reminder, null);
+
+        ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT);
+        layoutParams.gravity = Gravity.CENTER | Gravity.CENTER_HORIZONTAL;
+        actionBar.setCustomView(customActionBarView, layoutParams);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_TITLE);
+
+    }
 
 }

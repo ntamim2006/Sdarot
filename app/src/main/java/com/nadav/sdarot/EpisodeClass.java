@@ -8,7 +8,6 @@ public class EpisodeClass {
     private String num_of_episode;
     public String title;
     public boolean FlagIfSwipe;
-    public String imdbID;
     public String Date;
     public String plot;
     public Double RANK;

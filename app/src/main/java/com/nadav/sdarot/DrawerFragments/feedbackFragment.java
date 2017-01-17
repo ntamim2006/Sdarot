@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -32,6 +34,8 @@ import com.nadav.sdarot.R;
 
 import java.net.URLEncoder;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
 
 /**
  * Created by Nadav on 08/03/2016.
@@ -49,6 +53,7 @@ public class feedbackFragment extends Fragment implements ImageButton.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_feedback, container, false);
+        changeActionBarPicture(R.string.feedback);
         final EditText editName = (EditText) rootView.findViewById(R.id.editText);
         final EditText editMail = (EditText) rootView.findViewById(R.id.editText2);
         final EditText editFeedback = (EditText) rootView.findViewById(R.id.editText3);
@@ -88,7 +93,6 @@ public class feedbackFragment extends Fragment implements ImageButton.OnClickLis
         //Nothing here yet
         getActivity().getFragmentManager().beginTransaction().remove(this).commit();
         MainActivity.mDrawerLayout.setVisibility(View.INVISIBLE);
-        MainActivity.goToFrame = false;
 
     }
 
@@ -101,6 +105,20 @@ public class feedbackFragment extends Fragment implements ImageButton.OnClickLis
     }
 
 
+    public void changeActionBarPicture(int title) {
 
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.setTitle(getString(title));
+        LayoutInflater inflater2 = (LayoutInflater) actionBar.getThemedContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        View customActionBarView = inflater2.inflate(R.layout.layout_fragment_feedback, null);
+
+        ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT);
+        layoutParams.gravity = Gravity.CENTER | Gravity.CENTER_HORIZONTAL;
+        actionBar.setCustomView(customActionBarView, layoutParams);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_TITLE);
+
+    }
 
 }

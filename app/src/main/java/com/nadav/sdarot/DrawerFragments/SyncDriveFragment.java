@@ -3,7 +3,6 @@ package com.nadav.sdarot.DrawerFragments;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -11,10 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.nadav.sdarot.MainActivity;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.nadav.sdarot.R;
+
+import java.io.File;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -22,20 +22,22 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 /**
  * Created by Nadav on 08/03/2016.
  */
-public class TutorialFragment extends Fragment implements Button.OnClickListener {
+public class SyncDriveFragment extends Fragment implements Button.OnClickListener {
     private Button mButton; //Add at the top of the fragment
-    ActionBar actionBar;
-    public TutorialFragment() {
+
+    public SyncDriveFragment() {
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_tutorial, container, false);
-        changeActionBarPicture(R.string.tutorial);
-        mButton = (Button) rootView.findViewById(R.id.button3);
-        mButton.setOnClickListener(this);
+        View rootView = inflater.inflate(R.layout.fragment_syncdrive, container, false);
+        changeActionBarPicture(R.string.sync);
+//        mButton = (Button) rootView.findViewById(R.id.button3);
+//        mButton.setOnClickListener(this);
+
+
         return rootView;
     }
 
@@ -56,7 +58,7 @@ public class TutorialFragment extends Fragment implements Button.OnClickListener
         actionBar.setTitle(getString(title));
         LayoutInflater inflater2 = (LayoutInflater) actionBar.getThemedContext()
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
-        View customActionBarView = inflater2.inflate(R.layout.layout_fragment_tutorial, null);
+        View customActionBarView = inflater2.inflate(R.layout.layout_fragment_sync, null);
 
         ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
                 ActionBar.LayoutParams.WRAP_CONTENT);

@@ -46,7 +46,7 @@ import android.widget.ListView;
  *         view,
  *         null, // Optional token/cookie object
  *         new SwipeDismissTouchListener.OnDismissCallback() {
- *             public void onDismiss(View view, Object token) {
+ *             public void onDismiss(View view, Objectmy token) {
  *                 parent.removeView(view);
  *             }
  *         }));

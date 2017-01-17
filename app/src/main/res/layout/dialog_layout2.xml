@@ -1,0 +1,126 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="340dp"
+                android:layout_height="420dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+
+                android:background="@drawable/layout_dialod_bg"
+    >
+
+
+    <!--<com.shawnlin.numberpicker.NumberPicker-->
+        <!--android:id="@+id/numberPicker1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:np_dividerColor="@color/colorPrimary"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginTop="150dp"-->
+        <!--app:np_textColor="@color/black"-->
+        <!--app:np_textSize="12dp"-->
+        <!--android:layout_toRightOf="@+id/NumberPicker2"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:visibility="invisible"/>-->
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#000000"
+        android:layout_below="@+id/lin_search"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp" android:id="@+id/vi"/>
+
+
+    <AutoCompleteTextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:drawableEnd="@drawable/action_search"
+        android:drawablePadding="25dp"
+        android:drawableRight="@drawable/action_search"
+        android:id="@+id/textfortakefocus"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:inputType="text"
+        android:imeOptions="actionNext"
+        android:dropDownHeight="280dp"
+        android:text="enter series name"
+        android:textSize="24dp"
+        android:paddingLeft="30dp"
+        android:textColor="@color/colorAccent"/>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:layout_above="@+id/buttonOk"
+        android:layout_below="@+id/textView4" android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="My series list"
+        android:textSize="30sp"
+        android:id="@+id/textstam"
+        android:textColor="#0294b5"
+
+        android:layout_centerHorizontal="true"
+        android:linksClickable="false"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:id="@+id/imageView6"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:baselineAlignBottom="false"
+        android:background="#007590"/>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lin_search"
+        android:layout_marginTop="5dp">
+
+        <AutoCompleteTextView
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:drawablePadding="25dp"
+            android:id="@+id/autoCompleteTextView"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+
+            android:inputType="text"
+            android:imeOptions="actionSearch"
+            android:dropDownHeight="350dp"
+
+            android:textSize="20dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/colorAccentLight"
+            android:hint="enter series name"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:dropDownWidth="270dp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/imageView5"
+            android:background="@drawable/search_icon2"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="25dp"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
