@@ -32,6 +32,17 @@ public class EpisodeClass {
         this.setDate("");
     }
 
+    public EpisodeClass(String nameOfSeries, String numOfSeason, String numOfEpisode, String imgUrl, String Date, String pauseTime, String nameOfEpisode, String plot) {
+        this.name_of_series = nameOfSeries;
+        this.num_of_season = numOfSeason;
+        this.num_of_episode = numOfEpisode;
+        this.imageUrl = imgUrl;
+        this.Date = Date;
+        this.pausetime = pauseTime;
+        this.plot = plot;
+        this.nameOfEpisode = nameOfEpisode;
+    }
+
 
 
     public EpisodeClass(String imageUrl, String name_of_series, String num_of_season, String num_of_episode, String Date) {

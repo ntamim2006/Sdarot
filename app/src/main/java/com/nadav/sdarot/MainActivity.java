@@ -61,6 +61,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -330,8 +331,13 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
+                                EpisodeClass x1 = (EpisodeClass) listview.getItemAtPosition(position);
+
                                 ap.remove(position);
-                                save(context, listview, ap);
+                                mDatabase = FirebaseDatabase.getInstance().getReference();
+                                FirebaseUser user = auth.getCurrentUser();
+                                mDatabase.child("users").child(user.getUid()).child(x1.getName_of_series()).removeValue();
+
                                 checkSetHelpGuide(listview.getCount());
                             case DialogInterface.BUTTON_NEGATIVE:
                                 //No button clicked
@@ -365,10 +371,7 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
                     d.requestWindowFeature(Window.FEATURE_SWIPE_TO_DISMISS);
                 }
-//                    WindowManager.LayoutParams wmlp = d.getWindow().getAttributes();
-//                wmlp.gravity = Gravity.TOP | Gravity.CENTER;
-//                wmlp.x = 11;   //x position
-//                wmlp.y = 200;   //y position
+
                 d.setContentView(R.layout.dialog_layout);
 
                 d.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -616,21 +619,22 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                                         /* save */
     public static void save(Context context, ListView listview, Adapter ap) {
         String x = "";
-        for (int i = 0; i < ap.getCount(); i++) {
-            EpisodeClass x1 = (EpisodeClass) listview.getItemAtPosition(i);
-
-            x = x + x1.getName_of_series() + "|" + x1.getNum_of_season() + "|" + x1.getNum_of_episode() + "|" + x1.imageUrl + "|" + x1.Date + "|"+ x1.pausetime + "|"+x1.nameOfEpisode+"|"+x1.plot+"|";
-        }
-
         DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference();
         FirebaseUser user = auth.getCurrentUser();
+        for (int i = 0; i < ap.getCount(); i++) {
+            EpisodeClass x1 = (EpisodeClass) listview.getItemAtPosition(i);
+            ObjectFirebase o = new ObjectFirebase(x1.getName_of_series(),x1.getNum_of_season(),x1.getNum_of_episode(),x1.imageUrl,x1.Date,x1.pausetime,x1.nameOfEpisode,x1.plot);
+            try{
+                mDatabase.child("users").child(user.getUid()).child(x1.getName_of_series()).setValue(o);
+            }catch (Exception e){
+
+            }
+        }
 
         click = 0;
         try {
-            mDatabase.child("users").child(user.getUid()).setValue(x);
-            File f_list = new File(context.getFilesDir(), "list");
-            FileManager.writeToFile(f_list, x);
+
         }catch(Exception e){
 
         }
@@ -782,13 +786,6 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
         // Extract the action-view from the menu item
 
-//        if(ifstart) {
-//            for (int i = 0; i < ap.getCount(); i++) {
-//                EpisodeClass x1 = (EpisodeClass) listview.getItemAtPosition(i);
-//                new StartTask(x1, i).execute();
-//            }
-//        }
-//        ifstart = false;
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -1141,7 +1138,11 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                                             case DialogInterface.BUTTON_POSITIVE:
                                                 //Yes button clicked
 
+                                                mDatabase = FirebaseDatabase.getInstance().getReference();
+                                                FirebaseUser user = auth.getCurrentUser();
+                                                mDatabase.child("users").child(user.getUid()).child(x1.getName_of_series()).removeValue();
                                                 ap.remove(position_for_remove);
+
                                                 save(MainActivity.this, listview, ap);
                                                 checkSetHelpGuide(listview.getCount());
 
@@ -1370,9 +1371,15 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
             obj.setNameOfEpisode(nameOfEpisode);
             obj.setPausetime("");
             ap.add(obj);
+            DatabaseReference mDatabase;
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            FirebaseUser user = auth.getCurrentUser();
+            ObjectFirebase o = new ObjectFirebase(obj.getName_of_series(),obj.getNum_of_season(),obj.getNum_of_episode(),obj.imageUrl,obj.Date,obj.pausetime,obj.nameOfEpisode,obj.plot);
+            mDatabase.child("users").child(user.getUid()).child(obj.getName_of_series()).setValue(o);
 
             //save
-            save(getApplicationContext(), listview, ap);
+//            save(getApplicationContext(), listview, ap);
+
 
            // scroll to the bootom of listview
             scrollMyListViewToBottom(listview,ap );
@@ -1754,7 +1761,6 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                     listview.setSelection(position);
                 }
             x1.setPausetime("");
-            makeOwnTextLong(x1.nameOfEpisode);
             save(MainActivity.this, listview, ap);
             ap.notifyDataSetChanged();
         }
@@ -2059,8 +2065,6 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
         mInterstitialAd.loadAd(adRequest);
     }
 
-
-
     public static String formatEpisode (int num_season, int num_episode){
         String seas;
         String epis;
@@ -2110,10 +2114,6 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
             setHelpGuideInvisible();
         }
     }
-
-
-
-
 
     private void launchAutomaticHint() {
 
@@ -2287,68 +2287,40 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
     }
 
 
-    private void getDataFromMemory(String list) {
-        final String[] StringArray = new String[200];
-        if (!list.equals("")) {
-            String[] raw = list.split("[|]");
-            arraycopy(raw, 0, StringArray, 0, raw.length);
 
-            for (int j = 0; j < raw.length; ) {
-                if (StringArray[j + 3].equals("null")||StringArray[j + 3].equals("none")) {
-                    EpisodeClass obj = new EpisodeClass(R.drawable.nophotoavalibale, StringArray[j], StringArray[j + 1], StringArray[j + 2]);
-                    if(StringArray[j+5] == null){
-                        obj.setPausetime("");
-                    }else {
-                        obj.setPausetime(StringArray[j + 5]);
-                    }
-                    ap.add(obj);
-                } else {
-                    EpisodeClass obj = new EpisodeClass(StringArray[j + 3], StringArray[j], StringArray[j + 1], StringArray[j + 2], StringArray[j + 4]);
-                    if(StringArray[j+5] == null){
-                        obj.setPausetime("");
-                    }else {
-                        obj.setPausetime(StringArray[j + 5]);
-                    }
-                    obj.plot = StringArray[j+7];
-                    obj.nameOfEpisode = StringArray[j+6];
-                    ap.add(obj);
-                }
-                j = j + 8;
-            }
-            checkSetHelpGuide(listview.getCount());
-        }else{
-            Toast.makeText(getApplicationContext(),"empty",Toast.LENGTH_LONG).show();
-
-        }
-        linprogress.setVisibility(View.INVISIBLE);
-
-    }
     private void getDataFromMemory() {
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                File f_list = new File(getApplicationContext().getFilesDir(), "list");
-//                final String list = FileManager.readFromFile(f_list);
+
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-                myRef = database.getReference("users");
                 FirebaseUser user = auth.getCurrentUser();
+                myRef = database.getReference("users");
+
+
                 myRef.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        try{
-                            list = snapshot.getValue().toString();
+                        for (DataSnapshot messageSnapshot: snapshot.getChildren()) {
+
+
+                                String nameOfSeries = (String) messageSnapshot.child("nameOfSeries").getValue();
+                                String numOfSeason = (String) messageSnapshot.child("numOfSeason").getValue();
+                                String numOfEpisode = (String) messageSnapshot.child("numOfEpisode").getValue();
+                                String imgUrl = (String) messageSnapshot.child("imgUrl").getValue();
+                                String Date = (String) messageSnapshot.child("Date").getValue();
+                                String pauseTime = (String) messageSnapshot.child("pauseTime").getValue();
+                                String nameOfEpisode = (String) messageSnapshot.child("nameOfEpisode").getValue();
+                                String plot = (String) messageSnapshot.child("plot").getValue();
+                                EpisodeClass e = new  EpisodeClass( nameOfSeries,  numOfSeason,  numOfEpisode,  imgUrl,  Date,  pauseTime,  nameOfEpisode,  plot);
                             if(click==1){
-                                getDataFromMemory(list);
-                            }
-                        }catch (Exception e){
-                            FirebaseUser user = auth.getCurrentUser();
-                            myRef.child(user.getUid()).setValue("");
-                            linprogress.setVisibility(View.INVISIBLE);
-
+                            ap.add(e);}
                         }
-
+                            click = 0;
+                            linprogress.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
@@ -2358,9 +2330,12 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
 
                 });
 
+
             }
         }, 1000);
     }
+
+
 
 
 
