@@ -259,7 +259,51 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
 
                     /* ** getting the data from save ** */
                             click = 1;
-                            getDataFromMemory();
+//                            getDataFromMemory();
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                FirebaseUser user = auth.getCurrentUser();
+                myRef = database.getReference("users");
+                myRef.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        ap.removeAllll();
+                        ap.notifyDataSetChanged();
+
+                        for (DataSnapshot messageSnapshot: snapshot.getChildren()) {
+
+                            String nameOfSeries = (String) messageSnapshot.child("nameOfSeries").getValue();
+                            String numOfSeason = (String) messageSnapshot.child("numOfSeason").getValue();
+                            String numOfEpisode = (String) messageSnapshot.child("numOfEpisode").getValue();
+                            String imgUrl = (String) messageSnapshot.child("imgUrl").getValue();
+                            String Date = (String) messageSnapshot.child("Date").getValue();
+                            String pauseTime = (String) messageSnapshot.child("pauseTime").getValue();
+                            String nameOfEpisode = (String) messageSnapshot.child("nameOfEpisode").getValue();
+                            String plot = (String) messageSnapshot.child("plot").getValue();
+                            EpisodeClass e = new  EpisodeClass( nameOfSeries,  numOfSeason,  numOfEpisode,  imgUrl,  Date,  pauseTime,  nameOfEpisode,  plot);
+//                            if(click==1){
+                                ap.add(e);
+//                        }
+                        }
+                        click = 0;
+                        linprogress.setVisibility(View.INVISIBLE);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+            }
+        }, 1000);
+
+
+
+
 
 
                     /* **listview touches** */
@@ -673,7 +717,7 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
 
     @Override
     public void onStop() {
-        save(getBaseContext(), listview, ap);
+//        save(getBaseContext(), listview, ap);
         super.onStop();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -1370,12 +1414,23 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
             obj.setDate(s);
             obj.setNameOfEpisode(nameOfEpisode);
             obj.setPausetime("");
-            ap.add(obj);
             DatabaseReference mDatabase;
             mDatabase = FirebaseDatabase.getInstance().getReference();
             FirebaseUser user = auth.getCurrentUser();
-            ObjectFirebase o = new ObjectFirebase(obj.getName_of_series(),obj.getNum_of_season(),obj.getNum_of_episode(),obj.imageUrl,obj.Date,obj.pausetime,obj.nameOfEpisode,obj.plot);
-            mDatabase.child("users").child(user.getUid()).child(obj.getName_of_series()).setValue(o);
+            ObjectFirebase o=null;
+            if(obj.getName_of_series().contains(".")){
+                String my_new_str = obj.getName_of_series().replaceAll("\\.", "\u2024");
+                makeOwnTextLong(my_new_str);
+                obj.setNameOfseries(my_new_str);
+                o = new ObjectFirebase(obj.getName_of_series(),obj.getNum_of_season(),obj.getNum_of_episode(),obj.imageUrl,obj.Date,obj.pausetime,obj.nameOfEpisode,obj.plot);
+                mDatabase.child("users").child(user.getUid()).child(obj.getName_of_series()).setValue(o);
+            }else{
+                 o = new ObjectFirebase(obj.getName_of_series(),obj.getNum_of_season(),obj.getNum_of_episode(),obj.imageUrl,obj.Date,obj.pausetime,obj.nameOfEpisode,obj.plot);
+                 mDatabase.child("users").child(user.getUid()).child(obj.getName_of_series()).setValue(o);
+            }
+
+            ap.add(obj);
+
 
             //save
 //            save(getApplicationContext(), listview, ap);
@@ -1617,6 +1672,7 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
         protected Integer doInBackground(String... params) {
             // param[0] - we know we will have only one param, our search input
 
+            selected_series = selected_series.replaceAll("\u2024", ".");
             String result = Network.GET("http://www.omdbapi.com/?t=" + selected_series.replaceAll("\\s", "+") + "&Season=" + x1.getNum_of_season() + "&r=json");
             try {
                 JSONObject searchArr = new JSONObject(result);
@@ -1793,6 +1849,7 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
         protected Integer doInBackground(String... params) {
             // param[0] - we know we will have only one param, our search input
             number_of_max_seasons = 0;
+            selected_series = selected_series.replaceAll("\u2024", ".");
 
             String result = Network.GET("http://www.omdbapi.com/?t=" + selected_series.replaceAll("\\s", "+") + "&Season=" + x1.getNum_of_season() + "&r=json");
             try {
@@ -2295,11 +2352,8 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
             public void run() {
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-
                 FirebaseUser user = auth.getCurrentUser();
                 myRef = database.getReference("users");
-
-
                 myRef.child(user.getUid()).addValueEventListener(new ValueEventListener() {
 
                     @Override
@@ -2322,15 +2376,10 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                             click = 0;
                             linprogress.setVisibility(View.INVISIBLE);
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
-
                 });
-
-
             }
         }, 1000);
     }

@@ -36,6 +36,10 @@ public void add(EpisodeClass object) {
 		list.remove(object);
 		super.add(object);
 	}
+	public void removeAllll() {
+		// TODO Auto-generated method stub
+		list.clear();
+	}
 
 
 public static class ImgHolder

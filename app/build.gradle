@@ -9,8 +9,8 @@ android {
         applicationId "com.nadav.sdarot"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 25
-        versionName "2.8"
+        versionCode 29
+        versionName "3.2"
     }
     buildTypes {
         release {
