@@ -173,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
         AdRequest adRequest = new AdRequest.Builder().
                 addTestDevice("284C628A80680C07E21AE13728ADE937")
                 .addTestDevice("0E9830DF43C4EB440157B8C079727CF9")
+                .addTestDevice("DDC84492B2D034F767D033FA4725169D")
                 .build();
         mAdView.loadAd(adRequest);
         //InterstitialAd
@@ -2117,6 +2118,8 @@ public class MainActivity extends AppCompatActivity implements NumberPicker.OnVa
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .addTestDevice("284C628A80680C07E21AE13728ADE937")
                 .addTestDevice("0E9830DF43C4EB440157B8C079727CF9")
+                .addTestDevice("DDC84492B2D034F767D033FA4725169D")
+
                 .build();
 
         mInterstitialAd.loadAd(adRequest);
